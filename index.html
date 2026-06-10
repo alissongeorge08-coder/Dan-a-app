@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Sertão Dança - Aprenda danças folclóricas brasileiras como Quadrilha e Xaxado com aulas interativas.">
+    <title>Sertão Dança</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0"
+        rel="stylesheet" />
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div id="app-container">
+
+        <!-- ==================== MODAL DE LOGIN / CADASTRO ==================== -->
+        <div id="auth-modal" class="modal-overlay" aria-hidden="true" role="dialog" aria-modal="true"
+            aria-label="Autenticação">
+            <div class="modal-sheet">
+                <button class="modal-close-btn" onclick="app.closeAuthModal()" aria-label="Fechar">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+
+                <!-- Tabs -->
+                <div class="auth-tabs" role="tablist">
+                    <button class="auth-tab active" id="tab-login" role="tab" aria-selected="true"
+                        onclick="app.switchAuthTab('login')">Entrar</button>
+                    <button class="auth-tab" id="tab-register" role="tab" aria-selected="false"
+                        onclick="app.switchAuthTab('register')">Criar Conta</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="form-login" class="auth-form" novalidate>
+                    <h2 class="auth-title">Bem-vindo de volta!</h2>
+                    <p class="auth-subtitle">Entre para continuar sua jornada.</p>
+
+                    <div class="input-group">
+                        <span class="material-symbols-rounded input-icon">mail</span>
+                        <input type="email" id="login-email" placeholder="Seu e-mail" autocomplete="email" required />
+                    </div>
+                    <div class="input-group">
+                        <span class="material-symbols-rounded input-icon">lock</span>
+                        <input type="password" id="login-password" placeholder="Sua senha"
+                            autocomplete="current-password" required />
+                        <button type="button" class="toggle-pw-btn" onclick="app.togglePassword('login-password', this)"
+                            aria-label="Mostrar senha">
+                            <span class="material-symbols-rounded">visibility</span>
+                        </button>
+                    </div>
+                    <p id="login-error" class="auth-error" aria-live="polite"></p>
+                    <button type="submit" class="btn-primary" id="btn-login-submit">Entrar</button>
+                    <p class="auth-link">Esqueceu a senha? <a href="#">Recuperar acesso</a></p>
+                </form>
+
+                <!-- Register Form -->
+                <form id="form-register" class="auth-form hidden" novalidate>
+                    <h2 class="auth-title">Junte-se ao ritmo!</h2>
+                    <p class="auth-subtitle">Crie sua conta e comece a dançar.</p>
+
+                    <div class="input-group">
+                        <span class="material-symbols-rounded input-icon">person</span>
+                        <input type="text" id="reg-name" placeholder="Seu nome" autocomplete="name" required />
+                    </div>
+                    <div class="input-group">
+                        <span class="material-symbols-rounded input-icon">mail</span>
+                        <input type="email" id="reg-email" placeholder="Seu e-mail" autocomplete="email" required />
+                    </div>
+                    <div class="input-group">
+                        <span class="material-symbols-rounded input-icon">lock</span>
+                        <input type="password" id="reg-password" placeholder="Crie uma senha"
+                            autocomplete="new-password" required />
+                        <button type="button" class="toggle-pw-btn" onclick="app.togglePassword('reg-password', this)"
+                            aria-label="Mostrar senha">
+                            <span class="material-symbols-rounded">visibility</span>
+                        </button>
+                    </div>
+                    <p id="reg-error" class="auth-error" aria-live="polite"></p>
+                    <button type="submit" class="btn-primary" id="btn-register-submit">Criar Conta</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ==================== VIEW: HOME ==================== -->
+        <section id="view-home" class="view active" aria-label="Página inicial">
+
+            <div class="hero" role="img" aria-label="Dançarinos de Quadrilha em movimento">
+                <div class="hero-overlay"></div>
+                <header class="hero-content">
+                    <p class="hero-eyebrow">Cultura Nordestina</p>
+                    <h1>Sertão Dança</h1>
+                    <p class="hero-sub">Conecte-se com as raízes da cultura nordestina.</p>
+                    <button class="btn-primary" onclick="app.navigate('trilhas')" id="cta-explorar">
+                        <span class="material-symbols-rounded">explore</span>
+                        Explorar Ritmos
+                    </button>
+                    <div class="scroll-hint" aria-hidden="true">
+                        <span class="material-symbols-rounded">keyboard_arrow_down</span>
+                        <small>Deslize para ver mais</small>
+                    </div>
+                </header>
+            </div>
+
+            <main class="home-content">
+                <div class="streak-banner">
+                    <span class="material-symbols-rounded">local_fire_department</span>
+                    <p><strong>3 dias seguidos!</strong> Continue sua sequência hoje.</p>
+                </div>
+
+                <!-- ===== CONTINUE DE ONDE PAROU ===== -->
+                <h2 class="section-title">Continue de onde parou</h2>
+                <div class="resume-card" id="resume-card" onclick="app.startLesson('O Túnel', 'quadrilha')"
+                    role="button" tabindex="0" aria-label="Continuar aula O Túnel">
+                    <div class="resume-dance-badge resume-dance-badge--quadrilha" aria-hidden="true">
+                        <span class="material-symbols-rounded">celebration</span>
+                    </div>
+                    <div class="resume-info">
+                        <p class="resume-tag">Quadrilha · Intermediário</p>
+                        <h3 class="resume-title">O Túnel (Trabalho em grupo)</h3>
+                        <div class="resume-meta">
+                            <span class="material-symbols-rounded">schedule</span>
+                            <span>7 min restantes</span>
+                        </div>
+                        <div class="resume-progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0"
+                            aria-valuemax="100" aria-label="30% concluído">
+                            <div class="resume-progress-fill" style="width: 30%;"></div>
+                        </div>
+                        <p class="resume-pct">30% concluído</p>
+                    </div>
+                    <div class="resume-play-btn" aria-hidden="true">
+                        <span class="material-symbols-rounded">play_arrow</span>
+                    </div>
+                </div>
+
+                <!-- ===== ACESSO RÁPIDO ===== -->
+                <h2 class="section-title">Acesso Rápido</h2>
+                <div class="quick-access-track" id="quick-access-track" role="list"
+                    aria-label="Aulas acessadas recentemente">
+                    <button class="quick-item" role="listitem"
+                        onclick="app.startLesson('Anavantú e Anarriê', 'quadrilha')" aria-label="Anavantú e Anarriê">
+                        <div class="quick-icon quick-icon--culture" aria-hidden="true">
+                            <span class="material-symbols-rounded">celebration</span>
+                        </div>
+                        <span class="quick-label">Anavantú e Anarriê</span>
+                        <span class="quick-sub">5 min</span>
+                    </button>
+                    <button class="quick-item" role="listitem"
+                        onclick="app.startLesson('Passo Básico da Quadrilha', 'quadrilha')"
+                        aria-label="Passo Básico da Quadrilha">
+                        <div class="quick-icon quick-icon--fitness" aria-hidden="true">
+                            <span class="material-symbols-rounded">fitness_center</span>
+                        </div>
+                        <span class="quick-label">Passo Básico</span>
+                        <span class="quick-sub">4 min</span>
+                    </button>
+                    <button class="quick-item" role="listitem"
+                        onclick="app.startLesson('Postura e Elegância', 'quadrilha')" aria-label="Postura e Elegância">
+                        <div class="quick-icon quick-icon--wellness" aria-hidden="true">
+                            <span class="material-symbols-rounded">self_improvement</span>
+                        </div>
+                        <span class="quick-label">Postura e Elegância</span>
+                        <span class="quick-sub">5 min</span>
+                    </button>
+                    <button class="quick-item" role="listitem"
+                        onclick="app.startLesson('Xaxado para Mobilidade', 'xaxado')"
+                        aria-label="Xaxado para Mobilidade">
+                        <div class="quick-icon quick-icon--rhythm" aria-hidden="true">
+                            <span class="material-symbols-rounded">music_note</span>
+                        </div>
+                        <span class="quick-label">Xaxado para Mobilidade</span>
+                        <span class="quick-sub">15 min</span>
+                    </button>
+                    <button class="quick-item" role="listitem" onclick="app.startLesson('O Passo Arrastado', 'xaxado')"
+                        aria-label="O Passo Arrastado">
+                        <div class="quick-icon quick-icon--culture" aria-hidden="true">
+                            <span class="material-symbols-rounded">directions_walk</span>
+                        </div>
+                        <span class="quick-label">Passo Arrastado</span>
+                        <span class="quick-sub">10 min</span>
+                    </button>
+                </div>
+
+                <h2 class="section-title">Danças em Destaque</h2>
+                <div class="dance-grid" role="list">
+                    <article class="dance-card" role="listitem" onclick="app.navigate('quadrilha')">
+                        <div class="dance-card-img dance-card-img--quadrilha" aria-hidden="true"></div>
+                        <div class="dance-card-body">
+                            <h3>Quadrilha</h3>
+                            <p>Tradição junina em cada passo.</p>
+                        </div>
+                    </article>
+                    <article class="dance-card" role="listitem" onclick="app.navigate('xaxado')">
+                        <div class="dance-card-img dance-card-img--xaxado" aria-hidden="true"></div>
+                        <div class="dance-card-body">
+                            <h3>Xaxado</h3>
+                            <p>Força e ritmo do sertão.</p>
+                        </div>
+                    </article>
+                </div>
+            </main>
+        </section>
+
+        <!-- ==================== VIEW: TRILHAS ==================== -->
+        <section id="view-trilhas" class="view" aria-label="Trilhas de aprendizado">
+            <header class="app-header">
+                <h2>Trilhas</h2>
+                <p class="header-sub">Sua jornada pelo ritmo nordestino</p>
+            </header>
+
+            <!-- Dance selector tabs -->
+            <div class="trilhas-tabs">
+                <button class="trilha-tab active" id="ttab-quadrilha" onclick="app.switchTrilhaTab('quadrilha')">
+                    🎪 Quadrilha
+                </button>
+                <button class="trilha-tab" id="ttab-xaxado" onclick="app.switchTrilhaTab('xaxado')">
+                    🥾 Xaxado
+                </button>
+            </div>
+
+            <!-- TAB: Quadrilha -->
+            <main class="trilhas-content" id="trilhas-quadrilha">
+                <div class="dance-banner dance-banner--quadrilha" onclick="app.navigate('quadrilha')">
+                    <div class="dance-banner-overlay"></div>
+                    <div class="dance-banner-text">
+                        <h3>Quadrilha</h3>
+                        <p>Festa Junina • 3 fases</p>
+                    </div>
+                    <span class="material-symbols-rounded dance-banner-arrow">chevron_right</span>
+                </div>
+
+                <div class="trilha-module trilha-completed">
+                    <div class="module-header">
+                        <div class="module-title-group">
+                            <span class="module-badge module-badge--done" aria-label="Concluído">
+                                <span class="material-symbols-rounded">check</span>
+                            </span>
+                            <div>
+                                <h3>Introdução: O Passo</h3>
+                                <p class="module-desc">Movimentos fundamentais</p>
+                            </div>
+                        </div>
+                        <span class="progress-text">100%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 100%;"></div>
+                    </div>
+                    <ul class="lesson-list" role="list">
+                        <li class="lesson-item completed"
+                            onclick="app.startLesson('Passo Básico da Quadrilha', 'quadrilha')" role="button"
+                            tabindex="0">
+                            <span class="material-symbols-rounded icon">check_circle</span>
+                            <span class="title">Passo Básico da Quadrilha</span>
+                            <span class="lesson-duration">4 min</span>
+                        </li>
+                        <li class="lesson-item completed" onclick="app.startLesson('Postura e Elegância', 'quadrilha')"
+                            role="button" tabindex="0">
+                            <span class="material-symbols-rounded icon">check_circle</span>
+                            <span class="title">Postura e Elegância</span>
+                            <span class="lesson-duration">5 min</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="trilha-module active-module">
+                    <div class="module-header">
+                        <div class="module-title-group">
+                            <span class="module-badge module-badge--active" aria-label="Em progresso">
+                                <span class="material-symbols-rounded">play_arrow</span>
+                            </span>
+                            <div>
+                                <h3>Intermediário: A Trama</h3>
+                                <p class="module-desc">Figuras e dinâmicas de grupo</p>
+                            </div>
+                        </div>
+                        <span class="progress-text">30%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                    <ul class="lesson-list" role="list">
+                        <li class="lesson-item completed" onclick="app.startLesson('Anavantú e Anarriê', 'quadrilha')"
+                            role="button" tabindex="0">
+                            <span class="material-symbols-rounded icon">check_circle</span>
+                            <span class="title">Anavantú e Anarriê</span>
+                            <span class="lesson-duration">5 min</span>
+                        </li>
+                        <li class="lesson-item" onclick="app.startLesson('O Túnel', 'quadrilha')" role="button"
+                            tabindex="0">
+                            <span class="material-symbols-rounded icon">play_circle</span>
+                            <span class="title">O Túnel (Trabalho em grupo)</span>
+                            <span class="lesson-duration">7 min</span>
+                        </li>
+                        <li class="lesson-item locked" aria-disabled="true">
+                            <span class="material-symbols-rounded icon">lock</span>
+                            <span class="title">O Caracol</span>
+                            <span class="lesson-duration">6 min</span>
+                        </li>
+                    </ul>
+                    <button class="btn-primary module-cta" onclick="app.startLesson('O Túnel', 'quadrilha')">
+                        <span class="material-symbols-rounded">play_arrow</span>
+                        Continuar Trilha
+                    </button>
+                </div>
+
+                <div class="trilha-module">
+                    <div class="module-header">
+                        <div class="module-title-group">
+                            <span class="module-badge" aria-label="Bloqueado">
+                                <span class="material-symbols-rounded">lock</span>
+                            </span>
+                            <div>
+                                <h3>Avançado: O Baile</h3>
+                                <p class="module-desc">Performance e improvisação</p>
+                            </div>
+                        </div>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <ul class="lesson-list" role="list">
+                        <li class="lesson-item locked" aria-disabled="true">
+                            <span class="material-symbols-rounded icon">lock</span>
+                            <span class="title">Coreografia Completa</span>
+                            <span class="lesson-duration">12 min</span>
+                        </li>
+                        <li class="lesson-item locked" aria-disabled="true">
+                            <span class="material-symbols-rounded icon">lock</span>
+                            <span class="title">Improviso e Expressão</span>
+                            <span class="lesson-duration">10 min</span>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+
+            <!-- TAB: Xaxado -->
+            <main class="trilhas-content hidden" id="trilhas-xaxado">
+                <div class="dance-banner dance-banner--xaxado" onclick="app.navigate('xaxado')">
+                    <div class="dance-banner-overlay"></div>
+                    <div class="dance-banner-text">
+                        <h3>Xaxado</h3>
+                        <p>Cultura Sertaneja • 2 fases</p>
+                    </div>
+                    <span class="material-symbols-rounded dance-banner-arrow">chevron_right</span>
+                </div>
+
+                <div class="trilha-module active-module">
+                    <div class="module-header">
+                        <div class="module-title-group">
+                            <span class="module-badge module-badge--active" aria-label="Em progresso">
+                                <span class="material-symbols-rounded">play_arrow</span>
+                            </span>
+                            <div>
+                                <h3>Iniciante: A Ginga</h3>
+                                <p class="module-desc">Passo arrastado e marcação</p>
+                            </div>
+                        </div>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <ul class="lesson-list" role="list">
+                        <li class="lesson-item" onclick="app.startLesson('Xaxado para Mobilidade', 'xaxado')"
+                            role="button" tabindex="0">
+                            <span class="material-symbols-rounded icon">play_circle</span>
+                            <span class="title">Xaxado para Mobilidade</span>
+                            <span class="lesson-duration">15 min</span>
+                        </li>
+                        <li class="lesson-item" onclick="app.startLesson('O Passo Arrastado', 'xaxado')" role="button"
+                            tabindex="0">
+                            <span class="material-symbols-rounded icon">play_circle</span>
+                            <span class="title">O Passo Arrastado</span>
+                            <span class="lesson-duration">10 min</span>
+                        </li>
+                        <li class="lesson-item locked" aria-disabled="true">
+                            <span class="material-symbols-rounded icon">lock</span>
+                            <span class="title">Sapateado e Marcação</span>
+                            <span class="lesson-duration">12 min</span>
+                        </li>
+                    </ul>
+                    <button class="btn-primary module-cta"
+                        onclick="app.startLesson('Xaxado para Mobilidade', 'xaxado')">
+                        <span class="material-symbols-rounded">play_arrow</span>
+                        Começar Trilha
+                    </button>
+                </div>
+
+                <div class="trilha-module">
+                    <div class="module-header">
+                        <div class="module-title-group">
+                            <span class="module-badge" aria-label="Bloqueado">
+                                <span class="material-symbols-rounded">lock</span>
+                            </span>
+                            <div>
+                                <h3>Avançado: O Guerreiro</h3>
+                                <p class="module-desc">Expressão e improviso</p>
+                            </div>
+                        </div>
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 0%;"></div>
+                    </div>
+                    <ul class="lesson-list" role="list">
+                        <li class="lesson-item locked" aria-disabled="true">
+                            <span class="material-symbols-rounded icon">lock</span>
+                            <span class="title">Xaxado Avançado</span>
+                            <span class="lesson-duration">20 min</span>
+                        </li>
+                    </ul>
+                </div>
+            </main>
+        </section>
+
+        <!-- ==================== VIEW: EXPERIENCE (VIDEO) ==================== -->
+        <section id="view-experience" class="view video-mode" aria-label="Aula em vídeo">
+            <div class="video-container">
+
+                <!-- Video background / placeholder -->
+                <div class="video-placeholder" id="main-video" role="img" aria-label="Vídeo da aula"></div>
+
+                <!-- Tap zone: toque mostra controles; duplo-toque ou botão no centro pausa -->
+                <button class="video-tap-overlay" id="video-tap-btn" onclick="app.handleVideoTap()"
+                    aria-label="Mostrar controles / pausar vídeo">
+                    <div class="play-pause-icon" id="play-pause-icon">
+                        <span class="material-symbols-rounded">pause</span>
+                    </div>
+                </button>
+
+                <!-- ── Toda a UI do player ── -->
+                <div class="player-ui controls-visible" id="player-ui">
+
+                    <!-- Top bar -->
+                    <div class="video-topbar">
+                        <button class="back-btn" onclick="app.navigateBack()" aria-label="Voltar">
+                            <span class="material-symbols-rounded">arrow_back</span>
+                        </button>
+                        <div class="video-title-top">
+                            <p id="video-dance-tag">Quadrilha</p>
+                            <h4 id="video-lesson-top-title">Anavantú e Anarriê</h4>
+                        </div>
+                        <button class="control-btn" id="btn-mirror" onclick="app.toggleMirror()" aria-label="Espelho"
+                            aria-pressed="false">
+                            <span class="material-symbols-rounded">flip</span>
+                        </button>
+                    </div>
+
+                    <!-- Side controls -->
+                    <div class="video-overlay-controls" role="toolbar" aria-label="Controles de vídeo">
+                        <button class="control-btn" id="btn-tips" onclick="app.toggleTips()" aria-label="Dicas"
+                            aria-pressed="false">
+                            <span class="material-symbols-rounded">lightbulb</span>
+                            <small>Dicas</small>
+                        </button>
+                    </div>
+
+                    <!-- Bottom player bar -->
+                    <footer class="video-bottom-bar">
+                        <!-- Lesson info row -->
+                        <div class="player-lesson-row">
+                            <div class="lesson-info">
+                                <h3 id="current-lesson-title">Anavantú e Anarriê</h3>
+                                <p id="current-lesson-sub">Intermediário • 5 min</p>
+                            </div>
+                            <button class="btn-check" onclick="app.finishLesson()" aria-label="Concluir aula">
+                                <span class="material-symbols-rounded">check</span>
+                            </button>
+                        </div>
+
+                        <!-- Progress track -->
+                        <div class="player-progress">
+                            <div class="player-track">
+                                <div class="player-fill" id="player-fill"></div>
+                                <div class="player-thumb" id="player-thumb"></div>
+                            </div>
+                            <div class="player-times">
+                                <span id="player-current">0:00</span>
+                                <span id="player-total">5:00</span>
+                            </div>
+                        </div>
+
+                        <!-- Controls row — centrado -->
+                        <div class="player-controls">
+                            <button class="player-btn" onclick="app.seekBack()" aria-label="Voltar 10s">
+                                <span class="material-symbols-rounded">replay_10</span>
+                            </button>
+                            <button class="player-btn player-btn--main" id="main-play-btn" onclick="app.togglePlay()"
+                                aria-label="Pausar">
+                                <span class="material-symbols-rounded">pause</span>
+                            </button>
+                            <button class="player-btn" onclick="app.seekForward()" aria-label="Avançar 10s">
+                                <span class="material-symbols-rounded">forward_10</span>
+                            </button>
+                        </div>
+                    </footer>
+
+                </div><!-- /player-ui -->
+
+                <!-- Posture tips panel (fora do player-ui para não sumir junto) -->
+                <aside class="posture-tips-panel" id="posture-tips" aria-hidden="true">
+                    <h4><span class="material-symbols-rounded">lightbulb</span> Dica de Postura</h4>
+                    <p>Mantenha as costas retas e o peso na ponta dos pés para maior agilidade nos giros.</p>
+                </aside>
+
+                <!-- ---- Difficulty Feedback Bubble ---- -->
+                <div class="feedback-popup" id="feedback-popup" aria-hidden="true" role="dialog"
+                    aria-label="Feedback de dificuldade">
+                    <div class="feedback-card">
+                        <div class="feedback-header">
+                            <span class="feedback-question">🤔 A dificuldade corresponde ao descrito?</span>
+                            <button class="feedback-close" onclick="app.closeFeedback()" aria-label="Fechar">
+                                <span class="material-symbols-rounded">close</span>
+                            </button>
+                        </div>
+                        <div class="feedback-btns">
+                            <button class="feedback-btn feedback-btn--yes" onclick="app.submitFeedback(true)">
+                                <span class="material-symbols-rounded">thumb_up</span>
+                                Sim
+                            </button>
+                            <button class="feedback-btn feedback-btn--no" onclick="app.submitFeedback(false)">
+                                <span class="material-symbols-rounded">thumb_down</span>
+                                Não
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: PROFILE ==================== -->
+        <section id="view-profile" class="view" aria-label="Perfil do usuário">
+            <header class="app-header app-header--profile">
+                <h2 id="profile-header-title">Meu Perfil</h2>
+                <div class="profile-header-actions">
+                    <!-- Settings button (only when logged in) -->
+                    <button class="icon-btn" id="btn-settings" onclick="app.navigate('settings')" style="display:none"
+                        aria-label="Configurações">
+                        <span class="material-symbols-rounded">settings</span>
+                    </button>
+                    <!-- Logout button (only when logged in) -->
+                    <button class="icon-btn icon-btn--danger" id="btn-logout" onclick="app.logout()"
+                        style="display:none" aria-label="Sair">
+                        <span class="material-symbols-rounded">logout</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- ---- State: Logged OUT ---- -->
+            <div id="profile-guest" class="profile-guest-state">
+                <div class="guest-hero">
+                    <div class="guest-avatar-ring">
+                        <span class="material-symbols-rounded">person</span>
+                    </div>
+                    <h3>Entre para dançar!</h3>
+                    <p>Salve seu progresso, colecione medalhas e acompanhe sua evolução.</p>
+                </div>
+                <div class="guest-features">
+                    <div class="guest-feature">
+                        <span class="material-symbols-rounded">trophy</span>
+                        <p>Conquistas e Medalhas</p>
+                    </div>
+                    <div class="guest-feature">
+                        <span class="material-symbols-rounded">sync</span>
+                        <p>Progresso Salvo</p>
+                    </div>
+                    <div class="guest-feature">
+                        <span class="material-symbols-rounded">group</span>
+                        <p>Comunidade</p>
+                    </div>
+                </div>
+                <div class="guest-cta">
+                    <button class="btn-primary" onclick="app.openAuthModal('register')" id="btn-criar-conta">Criar Conta
+                        Grátis</button>
+                    <button class="btn-secondary" onclick="app.quickLogin()" id="btn-entrar">Já tenho uma conta</button>
+                    <button class="btn-secondary btn-educator" onclick="app.quickEducatorLogin()"
+                        id="btn-entrar-educador">
+                        <span class="material-symbols-rounded">school</span> Acesso Educador
+                    </button>
+                </div>
+            </div>
+
+            <!-- ---- State: Logged IN ---- -->
+            <main id="profile-logged-in" class="profile-content" style="display:none">
+
+                <!-- User hero card -->
+                <div class="profile-hero-card">
+                    <div class="avatar-wrapper">
+                        <div class="avatar">
+                            <span class="material-symbols-rounded" aria-hidden="true">person</span>
+                        </div>
+                        <div class="level-ring" aria-hidden="true"></div>
+                    </div>
+                    <div class="user-info">
+                        <h3 id="user-display-name">Ana Paula</h3>
+                        <p class="user-email" id="user-display-email">ana@sertaodanca.com</p>
+                        <div class="level-badge">
+                            <span class="material-symbols-rounded">military_tech</span>
+                            <span id="user-title-badge">Junina · Nível 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level progress -->
+                <div class="level-progress-card">
+                    <div class="lp-header">
+                        <span>Nível 4: Junina</span>
+                        <span class="lp-next">→ Mestra Folclorista (Nível 5)</span>
+                    </div>
+                    <div class="progress-bar" role="progressbar" aria-valuenow="72" aria-valuemin="0"
+                        aria-valuemax="100">
+                        <div class="progress-fill" style="width: 72%;"></div>
+                    </div>
+                    <p class="lp-hint">Faltam 2 aulas para alcançar o próximo título! 🎉</p>
+                </div>
+
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">schedule</span>
+                        <h4 id="stat-minutes">340</h4>
+                        <p>Minutos em<br>Movimento</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">local_fire_department</span>
+                        <h4>12</h4>
+                        <p>Dias<br>Seguidos</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">school</span>
+                        <h4>18</h4>
+                        <p>Aulas<br>Completas</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">emoji_events</span>
+                        <h4>5</h4>
+                        <p>Conquistas<br>Ganhas</p>
+                    </div>
+                </div>
+
+                <!-- Dance progress per style -->
+                <section class="dance-progress-section" aria-label="Progresso por dança">
+                    <h3 class="section-title">Progresso por Dança</h3>
+                    <div class="dance-progress-list">
+                        <div class="dance-progress-item" onclick="app.navigate('quadrilha')">
+                            <div class="dp-icon dp-icon--quadrilha">🎪</div>
+                            <div class="dp-info">
+                                <div class="dp-header">
+                                    <span class="dp-name">Quadrilha</span>
+                                    <span class="dp-pct">75%</span>
+                                </div>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    <div class="progress-fill" style="width: 75%;"></div>
+                                </div>
+                                <span class="dp-stage">Intermediário: A Trama</span>
+                            </div>
+                            <span class="material-symbols-rounded dp-arrow">chevron_right</span>
+                        </div>
+                        <div class="dance-progress-item" onclick="app.navigate('xaxado')">
+                            <div class="dp-icon dp-icon--xaxado">🥾</div>
+                            <div class="dp-info">
+                                <div class="dp-header">
+                                    <span class="dp-name">Xaxado</span>
+                                    <span class="dp-pct">30%</span>
+                                </div>
+                                <div class="progress-bar" role="progressbar" aria-valuenow="30" aria-valuemin="0"
+                                    aria-valuemax="100">
+                                    <div class="progress-fill" style="width: 30%;"></div>
+                                </div>
+                                <span class="dp-stage">Iniciante: A Ginga</span>
+                            </div>
+                            <span class="material-symbols-rounded dp-arrow">chevron_right</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Badges / Achievements -->
+                <section class="badges-section" aria-label="Conquistas">
+                    <h3 class="section-title">Minhas Conquistas</h3>
+                    <div class="badges-grid" role="list">
+                        <div class="badge earned" role="listitem" title="Primeiro Passo">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">star</span></div>
+                            <p>Primeiro Passo</p>
+                        </div>
+                        <div class="badge earned" role="listitem" title="Noite de São João">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">festival</span></div>
+                            <p>São João</p>
+                        </div>
+                        <div class="badge earned" role="listitem" title="Filha do Sertão">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">landscape</span></div>
+                            <p>Do Sertão</p>
+                        </div>
+                        <div class="badge earned" role="listitem" title="Sequência de 7 dias">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">local_fire_department</span></div>
+                            <p>Em Chamas</p>
+                        </div>
+                        <div class="badge earned" role="listitem" title="Meia hora dançando">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">timer</span></div>
+                            <p>Meia Hora</p>
+                        </div>
+                        <div class="badge locked" role="listitem" aria-label="Rei do Cangaço - Bloqueado">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">local_florist</span></div>
+                            <p>Cangaceiro</p>
+                        </div>
+                        <div class="badge locked" role="listitem" aria-label="Mestre do Baião - Bloqueado">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">music_note</span></div>
+                            <p>Mestre Baião</p>
+                        </div>
+                        <div class="badge locked" role="listitem" aria-label="Dançarina Completa - Bloqueado">
+                            <div class="badge-icon" aria-hidden="true"><span
+                                    class="material-symbols-rounded">emoji_events</span></div>
+                            <p>Completa</p>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- ---- State: Logged IN (Educator) ---- -->
+            <main id="profile-educator-in" class="profile-content" style="display:none">
+
+                <!-- Educator hero card -->
+                <div class="profile-hero-card educator-hero">
+                    <div class="avatar-wrapper">
+                        <div class="avatar educator-avatar">
+                            <span class="material-symbols-rounded" aria-hidden="true">school</span>
+                        </div>
+                    </div>
+                    <div class="user-info">
+                        <h3 id="educator-display-name">Prof. Mestre Vitalino</h3>
+                        <p class="user-email" id="educator-display-email">prof@sertaodanca.com</p>
+                        <div class="level-badge educator-badge">
+                            <span class="material-symbols-rounded">verified</span>
+                            <span>Administrador / Criador</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Educator Actions -->
+                <div class="educator-actions">
+                    <button class="btn-primary" onclick="alert('Funcionalidade em desenvolvimento!')">
+                        <span class="material-symbols-rounded">add_circle</span>
+                        Criar Nova Aula
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <h3 class="section-title">Visão Geral da Turma</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">groups</span>
+                        <h4>1.204</h4>
+                        <p>Alunos<br>Ativos</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">play_lesson</span>
+                        <h4>45</h4>
+                        <p>Aulas<br>Publicadas</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">monitoring</span>
+                        <h4>82%</h4>
+                        <p>Taxa de<br>Conclusão</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-symbols-rounded" aria-hidden="true">star</span>
+                        <h4>4.9</h4>
+                        <p>Avaliação<br>Média</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity List -->
+                <section class="dance-progress-section">
+                    <h3 class="section-title">Aulas Mais Acessadas</h3>
+                    <div class="dance-progress-list">
+                        <div class="dance-progress-item">
+                            <div class="dp-icon dp-icon--quadrilha">🎪</div>
+                            <div class="dp-info">
+                                <div class="dp-header">
+                                    <h4>O Túnel (Trabalho em grupo)</h4>
+                                    <span>342 acessos hoje</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dance-progress-item">
+                            <div class="dp-icon dp-icon--xaxado">🥾</div>
+                            <div class="dp-info">
+                                <div class="dp-header">
+                                    <h4>Xaxado para Mobilidade</h4>
+                                    <span>215 acessos hoje</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+        </section>
+
+
+        <!-- ==================== VIEW: SETTINGS ==================== -->
+        <section id="view-settings" class="view" aria-label="Configurações">
+            <header class="app-header">
+                <button class="back-btn-inline" onclick="app.navigate('profile')" aria-label="Voltar ao perfil">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                </button>
+                <h2>Configurações</h2>
+            </header>
+
+            <div class="settings-content">
+
+                <!-- Group: Vídeo -->
+                <div class="settings-group">
+                    <p class="settings-group-label">Vídeo</p>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">hd</span>
+                            <div>
+                                <span class="settings-row-title">Qualidade do Vídeo</span>
+                                <span class="settings-row-sub" id="lbl-quality">Automático</span>
+                            </div>
+                        </div>
+                        <div class="seg-control" role="group" aria-label="Qualidade">
+                            <button class="seg-btn active" id="sq-auto"
+                                onclick="app.setQuality('auto',   this)">Auto</button>
+                            <button class="seg-btn" id="sq-720" onclick="app.setQuality('720p',   this)">720p</button>
+                            <button class="seg-btn" id="sq-480" onclick="app.setQuality('480p',   this)">480p</button>
+                            <button class="seg-btn" id="sq-360" onclick="app.setQuality('360p',   this)">360p</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-row settings-row--toggle">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">signal_cellular_alt</span>
+                            <div>
+                                <span class="settings-row-title">Usar Dados Móveis</span>
+                                <span class="settings-row-sub">Baixar vídeos via 4G/5G</span>
+                            </div>
+                        </div>
+                        <button class="toggle-switch" id="toggle-mobile-data" role="switch" aria-checked="false"
+                            onclick="app.toggleSetting('mobile-data', this)">
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+
+                    <div class="settings-row settings-row--toggle">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">skip_next</span>
+                            <div>
+                                <span class="settings-row-title">Reprodução Automática</span>
+                                <span class="settings-row-sub">Próxima aula inicia sozinha</span>
+                            </div>
+                        </div>
+                        <button class="toggle-switch active" id="toggle-autoplay" role="switch" aria-checked="true"
+                            onclick="app.toggleSetting('autoplay', this)">
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group: Acessibilidade -->
+                <div class="settings-group">
+                    <p class="settings-group-label">Acessibilidade</p>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">text_fields</span>
+                            <div>
+                                <span class="settings-row-title">Tamanho da Letra</span>
+                                <span class="settings-row-sub" id="lbl-font">Normal</span>
+                            </div>
+                        </div>
+                        <div class="seg-control" role="group" aria-label="Tamanho da letra">
+                            <button class="seg-btn" id="sf-small" onclick="app.setFontSize('small',  this)">P</button>
+                            <button class="seg-btn active" id="sf-normal"
+                                onclick="app.setFontSize('normal', this)">M</button>
+                            <button class="seg-btn" id="sf-large" onclick="app.setFontSize('large',  this)">G</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-row settings-row--toggle">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">notifications</span>
+                            <div>
+                                <span class="settings-row-title">Notificações</span>
+                                <span class="settings-row-sub">Lembretes de prática diária</span>
+                            </div>
+                        </div>
+                        <button class="toggle-switch active" id="toggle-notifs" role="switch" aria-checked="true"
+                            onclick="app.toggleSetting('notifs', this)">
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group: Sobre -->
+                <div class="settings-group">
+                    <p class="settings-group-label">Sobre o App</p>
+
+                    <div class="settings-row settings-row--link">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">info</span>
+                            <span class="settings-row-title">Sobre o Sertão Dança</span>
+                        </div>
+                        <span class="material-symbols-rounded settings-row-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="settings-row settings-row--link">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">shield</span>
+                            <span class="settings-row-title">Política de Privacidade</span>
+                        </div>
+                        <span class="material-symbols-rounded settings-row-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="settings-row settings-row--link">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">description</span>
+                            <span class="settings-row-title">Termos de Uso</span>
+                        </div>
+                        <span class="material-symbols-rounded settings-row-chevron">chevron_right</span>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="material-symbols-rounded">deployed_code</span>
+                            <div>
+                                <span class="settings-row-title">Versão</span>
+                                <span class="settings-row-sub">1.0.0 (build 42)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Danger: Sair -->
+                <div class="settings-group settings-group--danger">
+                    <button class="settings-danger-btn" onclick="app.logout(); app.navigate('profile');">
+                        <span class="material-symbols-rounded">logout</span>
+                        Sair da conta
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== VIEW: QUADRILHA ==================== -->
+        <section id="view-quadrilha" class="view" aria-label="Quadrilha">
+            <div class="dance-hero dance-hero--quadrilha">
+                <div class="dance-hero-overlay"></div>
+                <button class="back-btn dance-back-btn" onclick="app.navigate('home')" aria-label="Voltar">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                </button>
+                <div class="dance-hero-content">
+                    <p class="hero-eyebrow">Festa Junina</p>
+                    <h1>Quadrilha</h1>
+                    <p class="hero-sub">A dança mais animada do São João nordestino.</p>
+                </div>
+            </div>
+
+            <main class="dance-detail-content">
+                <div class="dance-info-card">
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">groups</span>
+                        <div><strong>Coletiva</strong>
+                            <p>Em grupo</p>
+                        </div>
+                    </div>
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">speed</span>
+                        <div><strong>Animada</strong>
+                            <p>Ritmo rápido</p>
+                        </div>
+                    </div>
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">place</span>
+                        <div><strong>Nordeste</strong>
+                            <p>Origem</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dance-about">
+                    <h2 class="section-title">Sobre a Dança</h2>
+                    <p class="dance-description">A Quadrilha é uma dança de salão de origem francesa que foi
+                        completamente reinventada pelo povo nordestino. Com figuras como <em>anavantú</em>,
+                        <em>anarriê</em> e o <em>caracol</em>, ela celebra o amor, a festa e a identidade cultural do
+                        sertão durante os festejos juninos.
+                    </p>
+                </div>
+
+                <h2 class="section-title">Trilha da Quadrilha</h2>
+                <div class="dance-lessons">
+                    <div class="lesson-item completed"
+                        onclick="app.startLesson('Passo Básico da Quadrilha', 'quadrilha')">
+                        <span class="material-symbols-rounded icon">check_circle</span>
+                        <span class="title">Passo Básico da Quadrilha</span>
+                        <span class="lesson-duration">4 min</span>
+                    </div>
+                    <div class="lesson-item completed" onclick="app.startLesson('Postura e Elegância', 'quadrilha')">
+                        <span class="material-symbols-rounded icon">check_circle</span>
+                        <span class="title">Postura e Elegância</span>
+                        <span class="lesson-duration">5 min</span>
+                    </div>
+                    <div class="lesson-item" onclick="app.startLesson('Anavantú e Anarriê', 'quadrilha')">
+                        <span class="material-symbols-rounded icon">play_circle</span>
+                        <span class="title">Anavantú e Anarriê</span>
+                        <span class="lesson-duration">7 min</span>
+                    </div>
+                    <div class="lesson-item locked">
+                        <span class="material-symbols-rounded icon">lock</span>
+                        <span class="title">O Túnel e O Caracol</span>
+                        <span class="lesson-duration">8 min</span>
+                    </div>
+                    <div class="lesson-item locked">
+                        <span class="material-symbols-rounded icon">lock</span>
+                        <span class="title">Coreografia Completa</span>
+                        <span class="lesson-duration">12 min</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary dance-cta" onclick="app.startLesson('Anavantú e Anarriê', 'quadrilha')">
+                    <span class="material-symbols-rounded">play_arrow</span>
+                    Continuar Trilha
+                </button>
+            </main>
+        </section>
+
+        <!-- ==================== VIEW: XAXADO ==================== -->
+        <section id="view-xaxado" class="view" aria-label="Xaxado">
+            <div class="dance-hero dance-hero--xaxado">
+                <div class="dance-hero-overlay"></div>
+                <button class="back-btn dance-back-btn" onclick="app.navigate('home')" aria-label="Voltar">
+                    <span class="material-symbols-rounded">arrow_back</span>
+                </button>
+                <div class="dance-hero-content">
+                    <p class="hero-eyebrow">Cultura Sertaneja</p>
+                    <h1>Xaxado</h1>
+                    <p class="hero-sub">A dança guerreira nascida no coração do Cangaço.</p>
+                </div>
+            </div>
+
+            <main class="dance-detail-content">
+                <div class="dance-info-card">
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">person</span>
+                        <div><strong>Individual</strong>
+                            <p>Solo ou grupo</p>
+                        </div>
+                    </div>
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">speed</span>
+                        <div><strong>Moderado</strong>
+                            <p>Ritmo constante</p>
+                        </div>
+                    </div>
+                    <div class="dance-info-item">
+                        <span class="material-symbols-rounded">place</span>
+                        <div><strong>Sertão</strong>
+                            <p>Origem</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dance-about">
+                    <h2 class="section-title">Sobre a Dança</h2>
+                    <p class="dance-description">O Xaxado é uma dança masculina criada pelos cangaceiros de Lampião no
+                        início do século XX. Caracterizado por passos arrastados, sapateados e o característico
+                        movimento lateral dos pés, é hoje reconhecido como símbolo da resistência e da identidade
+                        nordestina.</p>
+                </div>
+
+                <h2 class="section-title">Trilha do Xaxado</h2>
+                <div class="dance-lessons">
+                    <div class="lesson-item" onclick="app.startLesson('Xaxado para Mobilidade', 'xaxado')">
+                        <span class="material-symbols-rounded icon">play_circle</span>
+                        <span class="title">Xaxado para Mobilidade</span>
+                        <span class="lesson-duration">15 min</span>
+                    </div>
+                    <div class="lesson-item" onclick="app.startLesson('O Passo Arrastado', 'xaxado')">
+                        <span class="material-symbols-rounded icon">play_circle</span>
+                        <span class="title">O Passo Arrastado</span>
+                        <span class="lesson-duration">10 min</span>
+                    </div>
+                    <div class="lesson-item locked">
+                        <span class="material-symbols-rounded icon">lock</span>
+                        <span class="title">Sapateado e Marcação</span>
+                        <span class="lesson-duration">12 min</span>
+                    </div>
+                    <div class="lesson-item locked">
+                        <span class="material-symbols-rounded icon">lock</span>
+                        <span class="title">Xaxado Avançado</span>
+                        <span class="lesson-duration">20 min</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary dance-cta" onclick="app.startLesson('Xaxado para Mobilidade', 'xaxado')">
+                    <span class="material-symbols-rounded">play_arrow</span>
+                    Começar Trilha
+                </button>
+            </main>
+        </section>
+
+        <!-- ==================== BOTTOM NAVIGATION ==================== -->
+        <nav id="bottom-nav" aria-label="Navegação principal">
+            <a href="#" class="nav-item active" onclick="app.navigate('home'); return false;" id="nav-home"
+                aria-label="Início" aria-current="page">
+                <span class="material-symbols-rounded" aria-hidden="true">home</span>
+                <span>Início</span>
+            </a>
+            <a href="#" class="nav-item" onclick="app.navigate('trilhas'); return false;" id="nav-trilhas"
+                aria-label="Trilhas de aprendizado">
+                <span class="material-symbols-rounded" aria-hidden="true">route</span>
+                <span>Trilhas</span>
+            </a>
+            <a href="#" class="nav-item" onclick="app.navigate('profile'); return false;" id="nav-profile"
+                aria-label="Perfil">
+                <span class="material-symbols-rounded" aria-hidden="true">person</span>
+                <span>Perfil</span>
+            </a>
+        </nav>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
