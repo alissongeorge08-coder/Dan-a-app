@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 80" width="220" height="80">
+  <!-- Plus sign: 3×3 grid of squares, cross pattern -->
+  <!-- Top -->
+  <rect x="74" y="8"  width="18" height="18" fill="#fed02d"/>
+  <!-- Middle row -->
+  <rect x="56" y="26" width="18" height="18" fill="#fd5e29"/>
+  <rect x="74" y="26" width="18" height="18" fill="#0d4c1e"/>
+  <rect x="92" y="26" width="18" height="18" fill="#fa8edf"/>
+  <!-- Bottom -->
+  <rect x="74" y="44" width="18" height="18" fill="#0470dd"/>
+
+  <!-- "BR" text -->
+  <text x="0" y="62" font-family="Poppins, Arial Black, sans-serif" font-weight="900" font-size="52" fill="#fefcf6" letter-spacing="-2">BR</text>
+
+  <!-- "Movimento" text (starts after the plus) -->
+  <text x="116" y="62" font-family="Poppins, Arial Black, sans-serif" font-weight="900" font-size="36" fill="#fefcf6" letter-spacing="-1">Movimento</text>
+</svg>
